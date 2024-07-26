@@ -1,31 +1,536 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./assets/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homepage</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div id="app">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="./assets/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img src="./assets/javascript.svg" class="logo vanilla" alt="JavaScript logo" />
-        </a>
-        <h1>Hello Vite!</h1>
-        <a href="./contact/">Go to contact page</a>
-        <div class="card">
-          <button id="counter" type="button">Counter 0</button>
-        </div>
-        <p class="read-the-docs">
-          Click on the Vite logo to learn more
-        </p>
-      </div>
+<html lang="fr">
+
+<head>
+  <base href="https://villa-azur-roquebrune.com/" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Villa Azur - Roquebrune-Cap-Martin</title>
+  <style>
+    :root {
+      --primary: #E34234;
+      /* Terracotta */
+      --secondary: #F5DEB3;
+      /* Wheat */
+      --accent: #8B4513;
+      /* Saddle Brown */
+      --background: #FFFAF0;
+      /* Floral White */
+      --text: #4A4A4A;
+      /* Dark Gray */
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background-color: var(--background);
+      color: var(--text);
+      text-align: center;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 250, 240, 0);
+      padding: 1rem 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background-color: rgba(255, 250, 240, 0.9);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar li {
+      margin: 0 1rem;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: var(--background);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .navbar.scrolled a {
+      color: var(--text);
+    }
+
+    .navbar a:hover {
+      color: var(--secondary);
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      color: var(--background);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .hero p {
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      padding-top: 4rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .gallery,
+    .instagram-feed {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .gallery img,
+    .instagram-post {
+      width: calc(25% - 1rem);
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery img:hover,
+    .instagram-post:hover img {
+      transform: scale(1.05);
+    }
+
+    .features ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .features li {
+      margin: 0.5rem 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--secondary);
+      border-radius: 20px;
+      color: var(--accent);
+    }
+
+    .reservation form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .reservation input,
+    .reservation textarea,
+    .reservation select {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid var(--accent);
+      background-color: var(--background);
+      color: var(--text);
+    }
+
+    .reservation button {
+      background-color: var(--primary);
+      color: var(--background);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reservation button:hover {
+      background-color: var(--accent);
+    }
+
+    .activities {
+      background-color: var(--secondary);
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    .activities ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .activities li {
+      margin-bottom: 1rem;
+    }
+
+    .instagram-post {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .instagram-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .instagram-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: var(--background);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .instagram-link:hover {
+      background-color: var(--accent);
+    }
+
+    .location-info {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .location-item {
+      background-color: var(--secondary);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .location-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .location-item i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .location-item h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .location-item p {
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .location-item {
+        width: 100%;
+      }
+
+      .navbar {
+        padding: 0.5rem 0;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+      }
+
+      .navbar li {
+        margin: 0.5rem 0;
+      }
+
+      .gallery img,
+      .instagram-post {
+        width: calc(50% - 1rem);
+      }
+    }
+  </style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="#home">Accueil</a></li>
+      <li><a href="#gallery">Galerie</a></li>
+      <li><a href="#features">Caractéristiques</a></li>
+      <li><a href="#location">Localisation</a></li>
+      <li><a href="#activities">Activités</a></li>
+      <li><a href="#reservation">Réservation</a></li>
+    </ul>
+  </nav>
+
+  <div id="home" class="hero">
+    <div class="hero-content">
+      <h1>Nom de la résidence Bellevue</h1>
+      <p>Un joyau méditerranéen niché dans le paradis de Roquebrune-Cap-Martin</p>
     </div>
-    <script type="module" src="./main.js"></script>
-  </body>
+  </div>
+
+  <div class="content">
+    <section id="gallery">
+      <h2>Galerie</h2>
+      <div class="gallery">
+        <img
+          src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+          alt="Villa Azur - Vue extérieure" width="300" height="200">
+        <img
+          src="https://images.unsplash.com/photo-1600210492493-0946911123ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+          alt="Villa Azur - Salon" width="300" height="200">
+        <img
+          src="https://images.unsplash.com/photo-1590725140246-20acdee442be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+          alt="Villa Azur - Piscine à débordement" width="300" height="200">
+        <img
+          src="https://images.unsplash.com/photo-1617104611622-d5f245d317f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+          alt="Villa Azur - Chambre principale" width="300" height="200">
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Caractéristiques Principales</h2>
+      <ul>
+        <li>Vue panoramique sur la Méditerranée</li>
+        <li>Piscine</li>
+        <li>2 chambres luxueuses</li>
+        <li>>Machine à Café</li>
+        <li>Climatisée</li>
+        <li>Jardin méditerranéen</li>
+        <li>Accès rapide à la mer</li>
+      </ul>
+    </section>
+
+    <section id="location">
+      <h2>Notre Localisation</h2>
+      <div class="location-info">
+        <div class="location-item">
+          <i class="fas fa-umbrella-beach"></i>
+          <h3>Mer Méditerranée</h3>
+          <p>2 minutes</p>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-city"></i>
+          <h3>Monaco</h3>
+          <p>15 minutes</p>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-landmark"></i>
+          <h3>Menton</h3>
+          <p>20 minutes</p>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-plane-departure"></i>
+          <h3>Aéroport de Nice</h3>
+          <p>45 minutes</p>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-train"></i>
+          <h3>Gare de Roquebrune</h3>
+          <p>5 minutes</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="history">
+      <h2>Roquebrune-Cap-Martin : Un Paradis Méditerranéen</h2>
+      <p>Nichée entre Monaco et Menton, Roquebrune-Cap-Martin est un joyau de la Côte d'Azur. Son histoire remonte à
+        l'époque romaine, et son charme médiéval se mêle harmonieusement à l'élégance moderne. La Villa Azur s'inscrit
+        dans ce paysage enchanteur, offrant une expérience unique où luxe et nature se rencontrent. Depuis votre
+        terrasse, admirez la mer azur qui s'étend à perte de vue, respirez l'air pur des pins méditerranéens, et
+        laissez-vous bercer par le chant des cigales. Ici, chaque instant est une célébration de l'art de vivre
+        méditerranéen.</p>
+    </section>
+
+    <section id="activities" class="activities">
+      <h2>Activités et Expériences</h2>
+      <ul>
+        <li>Cours de cuisine méditerranéenne avec un chef étoilé</li>
+        <li>Excursions en yacht le long de la Côte d'Azur</li>
+        <li>Sessions de yoga et de méditation face à la mer</li>
+        <li>Dégustations de vins et fromages locaux</li>
+        <li>Visites guidées des villages perchés environnants</li>
+        <li>Journées spa et bien-être personnalisées</li>
+        <li>Marché de Venti Mille</li>
+        <li>Découverte de la faune et la flore sous-marine en plongée</li>
+      </ul>
+    </section>
+
+    <section class="instagram">
+      <h2>Suivez-nous sur Instagram</h2>
+      <div class="instagram-feed">
+        <div class="instagram-post">
+          <img
+            src="https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+            alt="Vue sur la mer depuis la Villa Azur" width="200" height="200">
+        </div>
+        <div class="instagram-post">
+          <img
+            src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+            alt="Petit-déjeuner sur la terrasse" width="200" height="200">
+        </div>
+        <div class="instagram-post">
+          <img
+            src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+            alt="Coucher de soleil depuis la Villa Azur" width="200" height="200">
+        </div>
+        <div class="instagram-post">
+          <img
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+            alt="Cocktail au bord de la piscine" width="200" height="200">
+        </div>
+      </div>
+      <a href="https://www.instagram.com/villaazure" class="instagram-link" target="_blank">Suivez-nous sur
+        Instagram</a>
+    </section>
+
+    <section id="reservation" class="reservation">
+      <h2>Réservez Votre Séjour</h2>
+      <form id="reservationForm">
+        <input type="text" placeholder="Nom complet" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="Téléphone" required>
+        <input type="date" placeholder="Date d'arrivée" required>
+        <input type="date" placeholder="Date de départ" required>
+        <select required>
+          <option value="">Nombre de personnes</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5+</option>
+        </select>
+        <textarea placeholder="Demandes spéciales ou commentaires"></textarea>
+        <button type="submit">Réserver</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Fade in elements on scroll
+      const fadeInElements = document.querySelectorAll('.content section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+
+      fadeInElements.forEach(element => {
+        element.style.opacity = 0;
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(element);
+      });
+
+      // Reservation form submission
+      const reservationForm = document.getElementById('reservationForm');
+      reservationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Here you would typically send the form data to a server
+        alert('Merci pour votre réservation ! Nous vous contacterons bientôt pour confirmer les détails.');
+      });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Navbar scroll effect
+      window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+    });
+  </script>
+</body>
+
 </html>
