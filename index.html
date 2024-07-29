@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-  <base href="https://studiochalethirondelle.com/">
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio Chalet Hirondelle - Torgon, Portes du Soleil</title>
@@ -86,11 +86,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: url('assets/hotel-torgon_vue-aerienne-hotel-chalet-montagnes-alpes-1-scaled.jpg');
+      background-image: url('./assets/hotel-torgon_vue-aerienne-hotel-chalet-montagnes-alpes-1-scaled.jpg');
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
       position: relative;
+      background-attachment: fixed;
+      /* Ajoute ceci pour que l'image reste fixe */
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Ajoute ceci pour une ombre sur l'image */
+      z-index: -1;
     }
 
     .parallax-content {
@@ -100,15 +114,7 @@
       text-align: center;
     }
 
-    #hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-    }
+
 
     .hero-content {
       text-align: center;
@@ -462,13 +468,12 @@
     </header>
 
     <main>
-      <section id="hero" class="parallax">
-        <div class="parallax-content">
-          <div class="hero-content">
-            <h1>Studio Chalet Hirondelle</h1>
-            <p class="hero-subtitle">Votre refuge alpin à Torgon, Portes du Soleil</p>
-            <button class="cta-button">En apprendre plus</button>
-          </div>
+      <section id="hero" class="parallax"
+        style="background-image: url('./assets/hotel-torgon_vue-aerienne-hotel-chalet-montagnes-alpes-1-scaled.jpg');">
+        <div class="hero-content">
+          <h1>Studio Chalet Hirondelle</h1>
+          <p class="hero-subtitle">Votre refuge alpin à Torgon, Portes du Soleil</p>
+          <button class="cta-button">En apprendre plus</button>
         </div>
       </section>
 
@@ -520,9 +525,10 @@
           <button class="filter-btn" data-filter="view">Vue</button>
         </div>
         <div class="gallery-grid">
-          <a href="#" class="gallery-item" data-lightbox="chalet-gallery"
-            data-title="Salon confortable" data-category="interior">
-            <img src="https://www.torgon.ch/medias/images/prestations/multitailles/800x600_8857-salle_a_manger_hirondelle.jpg"
+          <a href="#" class="gallery-item" data-lightbox="chalet-gallery" data-title="Salon confortable"
+            data-category="interior">
+            <img
+              src="https://www.torgon.ch/medias/images/prestations/multitailles/800x600_8857-salle_a_manger_hirondelle.jpg"
               alt="Salon confortable du Studio Chalet Hirondelle">
             <div class="gallery-caption">Salon confortable</div>
           </a>
