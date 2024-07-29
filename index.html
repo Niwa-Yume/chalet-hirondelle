@@ -2,534 +2,821 @@
 <html lang="fr">
 
 <head>
-  <base href="https://villa-azur-roquebrune.com/" />
+  <base href="https://studiochalethirondelle.com/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Villa Azur - Roquebrune-Cap-Martin</title>
+  <title>Studio Chalet Hirondelle - Torgon, Portes du Soleil</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+  <link rel="stylesheet" href="style.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
     :root {
-      --primary: #E34234;
-      /* Terracotta */
-      --secondary: #F5DEB3;
-      /* Wheat */
-      --accent: #8B4513;
-      /* Saddle Brown */
-      --background: #FFFAF0;
-      /* Floral White */
-      --text: #4A4A4A;
-      /* Dark Gray */
+      --primary-color: #1a1a1a;
+      --secondary-color: #f4e9d9;
+      --accent-color: #c7967b;
+      --text-color: #333;
+      --background-color: #f9f5f0;
     }
 
-    body,
-    html {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Cormorant Garamond', serif;
-      background-color: var(--background);
-      color: var(--text);
-      text-align: center;
-      scroll-behavior: smooth;
+      box-sizing: border-box;
     }
 
-    .navbar {
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    #app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: rgba(255, 250, 240, 0);
-      padding: 1rem 0;
+      width: 100%;
+      padding: 2rem;
       z-index: 1000;
-      transition: background-color 0.3s ease;
+      mix-blend-mode: difference;
     }
 
-    .navbar.scrolled {
-      background-color: rgba(255, 250, 240, 0.9);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
+    nav {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .navbar li {
-      margin: 0 1rem;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      color: var(--background);
+    .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 300;
       transition: color 0.3s ease;
     }
 
-    .navbar.scrolled a {
-      color: var(--text);
+    .nav-links a:hover {
+      color: var(--accent-color);
     }
 
-    .navbar a:hover {
-      color: var(--secondary);
-    }
-
-    .hero {
-      position: relative;
+    #hero {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80');
-      background-size: cover;
+      background-image: url('assets/hotel-torgon_vue-aerienne-hotel-chalet-montagnes-alpes-1-scaled.jpg');
+      background-repeat: no-repeat;
       background-position: center;
+      background-size: cover;
+      position: relative;
+    }
+
+    .parallax-content {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
     }
 
     .hero-content {
-      color: var(--background);
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      text-align: center;
+      color: var(--primary-color);
+      z-index: 2;
+      backdrop-filter: blur(5px);
+      padding: 2rem;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: 4rem;
-      color: var(--secondary);
       margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.5s forwards;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
     }
 
-    .hero p {
-      opacity: 0;
-      animation: fadeIn 1s ease 1s forwards;
-    }
-
-    .content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    section {
-      margin-bottom: 4rem;
-      padding-top: 4rem;
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      color: var(--primary);
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .gallery,
-    .instagram-feed {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .gallery img,
-    .instagram-post {
-      width: calc(25% - 1rem);
-      height: 200px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-    }
-
-    .gallery img:hover,
-    .instagram-post:hover img {
-      transform: scale(1.05);
-    }
-
-    .features ul {
-      list-style-type: none;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .features li {
-      margin: 0.5rem 1rem;
-      padding: 0.5rem 1rem;
-      background-color: var(--secondary);
-      border-radius: 20px;
-      color: var(--accent);
-    }
-
-    .reservation form {
-      display: flex;
-      flex-direction: column;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .reservation input,
-    .reservation textarea,
-    .reservation select {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      border: 1px solid var(--accent);
-      background-color: var(--background);
-      color: var(--text);
-    }
-
-    .reservation button {
-      background-color: var(--primary);
-      color: var(--background);
+    .cta-button {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+      padding: 1rem 2rem;
       border: none;
-      padding: 0.5rem 1rem;
+      font-size: 1rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    .reservation button:hover {
-      background-color: var(--accent);
+    .cta-button:hover {
+      background-color: #b3815e;
     }
 
-    .activities {
-      background-color: var(--secondary);
-      padding: 2rem;
-      border-radius: 10px;
+    #three-d-viewer {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .activities ul {
-      list-style-type: none;
-      padding: 0;
+    .section {
+      padding: 5rem 10%;
     }
 
-    .activities li {
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      color: var(--accent-color);
       margin-bottom: 1rem;
     }
 
-    .instagram-post {
-      position: relative;
-      overflow: hidden;
+    .feature-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
     }
 
-    .instagram-post img {
+    footer {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .section {
+        padding: 3rem 5%;
+      }
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-30px);
+      }
+
+      60% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* Styles pour le formulaire de réservation */
+    #booking-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    .date-picker {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .date-picker input {
+      flex: 1;
+    }
+
+    button[type="submit"] {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #b3815e;
+    }
+
+    /* Styles pour la galerie améliorée */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.3s ease;
     }
 
-    .instagram-link {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: var(--primary);
-      color: var(--background);
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+    .gallery-item:hover img {
+      transform: scale(1.1);
     }
 
-    .instagram-link:hover {
-      background-color: var(--accent);
-    }
-
-    .location-info {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .location-item {
-      background-color: var(--secondary);
-      border-radius: 10px;
-      padding: 1rem;
-      margin: 1rem;
-      width: 200px;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      transform: translateY(100%);
       transition: transform 0.3s ease;
     }
 
-    .location-item:hover {
-      transform: translateY(-5px);
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
     }
 
-    .location-item i {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
+    .gallery-filter {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
-    .location-item h3 {
-      font-family: 'Playfair Display', serif;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
+    .gallery-filter button {
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    .location-item p {
-      font-size: 1.2rem;
-      color: var(--text);
+    .gallery-filter button.active,
+    .gallery-filter button:hover {
+      background-color: var(--accent-color);
+      color: white;
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 3rem;
-      }
+    .gallery-item.hidden {
+      display: none;
+    }
 
-      h2 {
-        font-size: 2rem;
-      }
+    .gallery-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
 
-      .location-item {
-        width: 100%;
-      }
+    .gallery-modal-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
 
-      .navbar {
-        padding: 0.5rem 0;
-      }
+    .gallery-modal-image {
+      max-width: 90%;
+      max-height: 90%;
+    }
 
-      .navbar ul {
-        flex-direction: column;
-      }
+    .gallery-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-      .navbar li {
-        margin: 0.5rem 0;
-      }
+    .gallery-modal-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #f1f1f1;
+      font-size: 18px;
+    }
 
-      .gallery img,
-      .instagram-post {
-        width: calc(50% - 1rem);
-      }
+    #webcam-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    #webcam-container iframe {
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
     }
   </style>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
-    rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </head>
 
 <body>
-  <nav class="navbar">
-    <ul>
-      <li><a href="#home">Accueil</a></li>
-      <li><a href="#gallery">Galerie</a></li>
-      <li><a href="#features">Caractéristiques</a></li>
-      <li><a href="#location">Localisation</a></li>
-      <li><a href="#activities">Activités</a></li>
-      <li><a href="#reservation">Réservation</a></li>
-    </ul>
-  </nav>
+  <div id="app">
+    <header>
+      <nav>
+        <a href="#" class="logo">Studio Chalet Hirondelle</a>
+        <div class="nav-links">
+          <a href="#about">À propos</a>
+          <a href="#features">Caractéristiques</a>
+          <a href="#gallery">Galerie</a>
+          <a href="#booking">Réservation</a>
+        </div>
+      </nav>
+    </header>
 
-  <div id="home" class="hero">
-    <div class="hero-content">
-      <h1>Nom de la résidence Bellevue</h1>
-      <p>Un joyau méditerranéen niché dans le paradis de Roquebrune-Cap-Martin</p>
-    </div>
-  </div>
+    <main>
+      <section id="hero" class="parallax">
+        <div class="parallax-content">
+          <div class="hero-content">
+            <h1>Studio Chalet Hirondelle</h1>
+            <p class="hero-subtitle">Votre refuge alpin à Torgon, Portes du Soleil</p>
+            <button class="cta-button">En apprendre plus</button>
+          </div>
+        </div>
+      </section>
 
-  <div class="content">
-    <section id="gallery">
-      <h2>Galerie</h2>
-      <div class="gallery">
-        <img
-          src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-          alt="Villa Azur - Vue extérieure" width="300" height="200">
-        <img
-          src="https://images.unsplash.com/photo-1600210492493-0946911123ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-          alt="Villa Azur - Salon" width="300" height="200">
-        <img
-          src="https://images.unsplash.com/photo-1590725140246-20acdee442be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-          alt="Villa Azur - Piscine à débordement" width="300" height="200">
-        <img
-          src="https://images.unsplash.com/photo-1617104611622-d5f245d317f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-          alt="Villa Azur - Chambre principale" width="300" height="200">
-      </div>
-    </section>
+      <section id="three-d-viewer"></section>
 
-    <section id="features" class="features">
-      <h2>Caractéristiques Principales</h2>
-      <ul>
-        <li>Vue panoramique sur la Méditerranée</li>
-        <li>Piscine</li>
-        <li>2 chambres luxueuses</li>
-        <li>>Machine à Café</li>
-        <li>Climatisée</li>
-        <li>Jardin méditerranéen</li>
-        <li>Accès rapide à la mer</li>
-      </ul>
-    </section>
+      <section id="about" class="section">
+        <h2 class="section-title">Bienvenue au Studio Chalet Hirondelle</h2>
+        <p>Niché au cœur de Torgon, notre charmant studio de 34 m² avec terrasse vous offre une expérience alpine
+          inoubliable. Profitez d'une vue imprenable sur la plaine du Rhône et d'un accès direct aux pistes de ski des
+          Portes du Soleil.</p>
+        <div id="webcam-container">
+          <iframe src="https://www.skaping.com/portes-du-soleil/chatel/torgon/plan-de-croix" width="600" height="400"
+            frameborder="0" allowfullscreen></iframe>
+        </div>
+      </section>
 
-    <section id="location">
-      <h2>Notre Localisation</h2>
-      <div class="location-info">
-        <div class="location-item">
-          <i class="fas fa-umbrella-beach"></i>
-          <h3>Mer Méditerranée</h3>
-          <p>2 minutes</p>
+      <section id="features" class="section">
+        <h2 class="section-title">Caractéristiques</h2>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">🏔️</div>
+            <h3 class="feature-title">Vue panoramique</h3>
+            <p>Admirez la majestueuse plaine du Rhône depuis votre terrasse privée.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎿</div>
+            <h3 class="feature-title">Accès aux pistes</h3>
+            <p>À quelques pas des pistes de ski des Portes du Soleil.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🛋️</div>
+            <h3 class="feature-title">Confort moderne</h3>
+            <p>Profitez d'un intérieur rénové alliant charme alpin et commodités contemporaines.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <h3 class="feature-title">Idéal pour les familles</h3>
+            <p>Un espace convivial parfait pour des vacances en famille.</p>
+          </div>
         </div>
-        <div class="location-item">
-          <i class="fas fa-city"></i>
-          <h3>Monaco</h3>
-          <p>15 minutes</p>
-        </div>
-        <div class="location-item">
-          <i class="fas fa-landmark"></i>
-          <h3>Menton</h3>
-          <p>20 minutes</p>
-        </div>
-        <div class="location-item">
-          <i class="fas fa-plane-departure"></i>
-          <h3>Aéroport de Nice</h3>
-          <p>45 minutes</p>
-        </div>
-        <div class="location-item">
-          <i class="fas fa-train"></i>
-          <h3>Gare de Roquebrune</h3>
-          <p>5 minutes</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="history">
-      <h2>Roquebrune-Cap-Martin : Un Paradis Méditerranéen</h2>
-      <p>Nichée entre Monaco et Menton, Roquebrune-Cap-Martin est un joyau de la Côte d'Azur. Son histoire remonte à
-        l'époque romaine, et son charme médiéval se mêle harmonieusement à l'élégance moderne. La Villa Azur s'inscrit
-        dans ce paysage enchanteur, offrant une expérience unique où luxe et nature se rencontrent. Depuis votre
-        terrasse, admirez la mer azur qui s'étend à perte de vue, respirez l'air pur des pins méditerranéens, et
-        laissez-vous bercer par le chant des cigales. Ici, chaque instant est une célébration de l'art de vivre
-        méditerranéen.</p>
-    </section>
+      <section id="gallery" class="section">
+        <h2 class="section-title">Galerie</h2>
+        <div class="gallery-filter">
+          <button class="filter-btn active" data-filter="all">Tout</button>
+          <button class="filter-btn" data-filter="interior">Intérieur</button>
+          <button class="filter-btn" data-filter="exterior">Extérieur</button>
+          <button class="filter-btn" data-filter="view">Vue</button>
+        </div>
+        <div class="gallery-grid">
+          <a href="#" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Salon confortable" data-category="interior">
+            <img src="https://www.torgon.ch/medias/images/prestations/multitailles/800x600_8857-salle_a_manger_hirondelle.jpg"
+              alt="Salon confortable du Studio Chalet Hirondelle">
+            <div class="gallery-caption">Salon confortable</div>
+          </a>
+          <a href="https://example.com/images/chalet-exterior-1.jpg" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Façade du chalet en hiver" data-category="exterior">
+            <img src="https://example.com/images/chalet-exterior-1-thumb.jpg"
+              alt="Façade du Studio Chalet Hirondelle en hiver">
+            <div class="gallery-caption">Façade du chalet en hiver</div>
+          </a>
+          <a href="https://example.com/images/chalet-view-1.jpg" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Vue panoramique sur les montagnes" data-category="view">
+            <img src="https://example.com/images/chalet-view-1-thumb.jpg"
+              alt="Vue panoramique depuis le Studio Chalet Hirondelle">
+            <div class="gallery-caption">Vue panoramique sur les montagnes</div>
+          </a>
+          <a href="https://example.com/images/chalet-interior-2.jpg" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Chambre cosy" data-category="interior">
+            <img src="https://example.com/images/chalet-interior-2-thumb.jpg"
+              alt="Chambre cosy du Studio Chalet Hirondelle">
+            <div class="gallery-caption">Chambre cosy</div>
+          </a>
+          <a href="https://example.com/images/chalet-exterior-2.jpg" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Terrasse en été" data-category="exterior">
+            <img src="https://example.com/images/chalet-exterior-2-thumb.jpg"
+              alt="Terrasse du Studio Chalet Hirondelle en été">
+            <div class="gallery-caption">Terrasse en été</div>
+          </a>
+          <a href="https://example.com/images/chalet-view-2.jpg" class="gallery-item" data-lightbox="chalet-gallery"
+            data-title="Coucher de soleil sur la vallée" data-category="view">
+            <img src="https://example.com/images/chalet-view-2-thumb.jpg"
+              alt="Coucher de soleil vu depuis le Studio Chalet Hirondelle">
+            <div class="gallery-caption">Coucher de soleil sur la vallée</div>
+          </a>
+        </div>
+      </section>
 
-    <section id="activities" class="activities">
-      <h2>Activités et Expériences</h2>
-      <ul>
-        <li>Cours de cuisine méditerranéenne avec un chef étoilé</li>
-        <li>Excursions en yacht le long de la Côte d'Azur</li>
-        <li>Sessions de yoga et de méditation face à la mer</li>
-        <li>Dégustations de vins et fromages locaux</li>
-        <li>Visites guidées des villages perchés environnants</li>
-        <li>Journées spa et bien-être personnalisées</li>
-        <li>Marché de Venti Mille</li>
-        <li>Découverte de la faune et la flore sous-marine en plongée</li>
-      </ul>
-    </section>
+      <section id="booking" class="section">
+        <h2 class="section-title">Réservez votre séjour</h2>
+        <form id="booking-form">
+          <div class="form-group">
+            <label for="name">Nom complet</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Numéro de téléphone</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+          <div class="form-group date-picker">
+            <div>
+              <label for="check-in">Date d'arrivée</label>
+              <input type="text" id="check-in" name="check-in" required>
+            </div>
+            <div>
+              <label for="check-out">Date de départ</label>
+              <input type="text" id="check-out" name="check-out" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="guests">Nombre de personnes</label>
+            <input type="number" id="guests" name="guests" min="1" max="4" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message (optionnel)</label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <button type="submit" class="cta-button">Envoyer la demande de réservation</button>
+        </form>
+      </section>
+    </main>
 
-    <section class="instagram">
-      <h2>Suivez-nous sur Instagram</h2>
-      <div class="instagram-feed">
-        <div class="instagram-post">
-          <img
-            src="https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-            alt="Vue sur la mer depuis la Villa Azur" width="200" height="200">
-        </div>
-        <div class="instagram-post">
-          <img
-            src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-            alt="Petit-déjeuner sur la terrasse" width="200" height="200">
-        </div>
-        <div class="instagram-post">
-          <img
-            src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-            alt="Coucher de soleil depuis la Villa Azur" width="200" height="200">
-        </div>
-        <div class="instagram-post">
-          <img
-            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
-            alt="Cocktail au bord de la piscine" width="200" height="200">
-        </div>
-      </div>
-      <a href="https://www.instagram.com/villaazure" class="instagram-link" target="_blank">Suivez-nous sur
-        Instagram</a>
-    </section>
-
-    <section id="reservation" class="reservation">
-      <h2>Réservez Votre Séjour</h2>
-      <form id="reservationForm">
-        <input type="text" placeholder="Nom complet" required>
-        <input type="email" placeholder="Email" required>
-        <input type="tel" placeholder="Téléphone" required>
-        <input type="date" placeholder="Date d'arrivée" required>
-        <input type="date" placeholder="Date de départ" required>
-        <select required>
-          <option value="">Nombre de personnes</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5+</option>
-        </select>
-        <textarea placeholder="Demandes spéciales ou commentaires"></textarea>
-        <button type="submit">Réserver</button>
-      </form>
-    </section>
+    <footer>
+      <p>&copy; 2023 Studio Chalet Hirondelle. Tous droits réservés.</p>
+    </footer>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-      // Fade in elements on scroll
-      const fadeInElements = document.querySelectorAll('.content section');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, { threshold: 0.1 });
+    // Initialisation de Three.js
+    let scene, camera, renderer, chalet;
 
-      fadeInElements.forEach(element => {
-        element.style.opacity = 0;
-        element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(element);
-      });
+    function init3DViewer() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById('three-d-viewer').appendChild(renderer.domElement);
 
-      // Reservation form submission
-      const reservationForm = document.getElementById('reservationForm');
-      reservationForm.addEventListener('submit', (e) => {
+      // Création d'un modèle plus détaillé pour le chalet
+      const chaletGeometry = new THREE.BoxGeometry(2, 1.5, 1.5);
+      const chaletMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+      chalet = new THREE.Mesh(chaletGeometry, chaletMaterial);
+      scene.add(chalet);
+
+      // Ajout d'un toit
+      const roofGeometry = new THREE.ConeGeometry(1.5, 1, 4);
+      const roofMaterial = new THREE.MeshPhongMaterial({ color: 0x3b2507 });
+      const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+      roof.position.y = 1.25;
+      roof.rotation.y = Math.PI / 4;
+      chalet.add(roof);
+
+      // Ajout de fenêtres
+      const windowGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+      const windowMaterial = new THREE.MeshPhongMaterial({ color: 0x87CEEB, side: THREE.DoubleSide });
+      const window1 = new THREE.Mesh(windowGeometry, windowMaterial);
+      window1.position.set(0.5, 0, 0.76);
+      chalet.add(window1);
+
+      const window2 = window1.clone();
+      window2.position.set(-0.5, 0, 0.76);
+      chalet.add(window2);
+
+      // Ajout d'une porte
+      const doorGeometry = new THREE.PlaneGeometry(0.5, 0.8);
+      const doorMaterial = new THREE.MeshPhongMaterial({ color: 0x4d3319, side: THREE.DoubleSide });
+      const door = new THREE.Mesh(doorGeometry, doorMaterial);
+      door.position.set(0, -0.35, 0.76);
+      chalet.add(door);
+
+      // Ajout de lumière
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(directionalLight);
+
+      camera.position.z = 5;
+
+      // Centrer la caméra sur le chalet
+      chalet.position.set(0, 0, 0);
+      camera.position.set(0, 0, 5);
+      camera.lookAt(chalet.position);
+
+      animate();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      chalet.rotation.y += 0.005;
+      renderer.render(scene, camera);
+    }
+
+    // Gestion du défilement fluide
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        // Here you would typically send the form data to a server
-        alert('Merci pour votre réservation ! Nous vous contacterons bientôt pour confirmer les détails.');
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Animation du bouton CTA
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(button => {
+      button.addEventListener('mouseover', () => {
+        gsap.to(button, { scale: 1.1, duration: 0.3, ease: "power2.out" });
+      });
+      button.addEventListener('mouseout', () => {
+        gsap.to(button, { scale: 1, duration: 0.3, ease: "power2.out" });
+      });
+    });
+
+    // Parallax effet
+    window.addEventListener('scroll', () => {
+      const parallaxSections = document.querySelectorAll('.parallax');
+      parallaxSections.forEach(section => {
+        const scrollPosition = window.pageYOffset;
+        section.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+      });
+    });
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', () => {
+      init3DViewer();
+
+      // Animation d'entrée pour le titre et le sous-titre
+      gsap.from('.hero-content h1', { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+      gsap.from('.hero-subtitle', { opacity: 0, y: 30, duration: 1, delay: 1 });
+      gsap.from('.cta-button', { opacity: 0, y: 20, duration: 1, delay: 1.5 });
+
+      // Animation des caractéristiques au défilement
+      const features = document.querySelectorAll('.feature');
+      features.forEach((feature, index) => {
+        gsap.from(feature, {
+          scrollTrigger: {
+            trigger: feature,
+            start: "top 80%"
+          },
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          delay: index * 0.2
+        });
       });
 
-      // Smooth scroll
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+      // Initialisation du date picker
+      flatpickr("#check-in", {
+        dateFormat: "d/m/Y",
+        minDate: "today"
+      });
+
+      flatpickr("#check-out", {
+        dateFormat: "d/m/Y",
+        minDate: "today"
+      });
+
+      // Gestion du formulaire de réservation
+      const bookingForm = document.getElementById('booking-form');
+      bookingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Récupération des données du formulaire
+        const formData = new FormData(bookingForm);
+        const bookingData = Object.fromEntries(formData.entries());
+
+        // Ici, vous pouvez ajouter le code pour envoyer les données à votre backend
+        console.log('Données de réservation:', bookingData);
+
+        // Affichage d'un message de confirmation
+        alert('Merci pour votre demande de réservation. Nous vous contacterons sous peu pour confirmer votre séjour.');
+
+        // Réinitialisation du formulaire
+        bookingForm.reset();
+      });
+
+      // Filtrage de la galerie
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const filter = button.getAttribute('data-filter');
+
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          galleryItems.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
           });
         });
       });
 
-      // Navbar scroll effect
-      window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
+      // Initialisation de Lightbox
+      lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+      });
+
+      // Animation d'entrée pour les éléments de la galerie
+      gsap.from('.gallery-item', {
+        scrollTrigger: {
+          trigger: '.gallery-grid',
+          start: "top 80%"
+        },
+        opacity: 0,
+        y: 50,
+        stagger: 0.1,
+        duration: 0.8
       });
     });
+
+    // Son d'ambiance
+    const sound = new Howl({
+      src: ['https://example.com/ambient-torgon.mp3'],
+      loop: true,
+      volume: 0.3
+    });
+
+    document.querySelector('.cta-button').addEventListener('click', () => {
+      sound.play();
+    });
+
+    // Adaptation du mode sombre
+    function updateDarkMode() {
+      const hour = new Date().getHours();
+      if (hour >= 20 || hour < 6) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
+
+    updateDarkMode();
+    setInterval(updateDarkMode, 60000); // Vérification toutes les minutes
+
   </script>
 </body>
 
